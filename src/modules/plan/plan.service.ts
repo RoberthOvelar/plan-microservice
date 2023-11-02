@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
 import { Plan } from './entities/plan.entity';
@@ -30,15 +30,31 @@ export class PlanService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} plan`;
+  async findOne(id: string): Promise<ReturnPlanDto> {
+    const result =
+      (await this.planRepositoty.findOneBy({ id })) ??
+      throwEx(new NotFoundException());
+    return this.mapper.map(result, Plan, ReturnPlanDto);
   }
 
-  update(id: number, updatePlanDto: UpdatePlanDto) {
-    return `This action updates a #${id} plan`;
+  async update(
+    id: string,
+    updatePlanDto: UpdatePlanDto,
+  ): Promise<ReturnPlanDto> {
+    const result =
+      (await this.planRepositoty.findOneBy({ id })) ??
+      throwEx(new NotFoundException());
+    const updatedEntity = this.planRepositoty.merge(result, updatePlanDto); //TODO: Ignorar campos blank quando fazer merge
+    const saveReturn = await this.planRepositoty.save(updatedEntity);
+    return this.mapper.map(saveReturn, Plan, ReturnPlanDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} plan`;
+  async remove(id: string): Promise<void> {
+    (await this.planRepositoty.findOneBy({ id })) ??
+      throwEx(new NotFoundException());
+    this.planRepositoty.delete(id);
   }
 }
+const throwEx = <Exception extends Error>(exception: Exception): never => {
+  throw exception;
+};
