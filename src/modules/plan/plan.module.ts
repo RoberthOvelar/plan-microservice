@@ -1,17 +1,31 @@
 import { Module } from '@nestjs/common';
-import { PlanService } from './plan.service';
 import { PlanController } from './plan.controller';
 import { Plan } from './entities/plan.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { profileFor } from '../../profile/mapper.profile';
-import { CreatePlanDto } from './dto/create-plan.dto';
-import { ReturnPlanDto } from './dto/return-plan.dto';
+import { CreatePlanDto } from './dtos/create-plan.dto';
+import { ReturnPlanDto } from './dtos/return-plan.dto';
+import { CreatePlanUseCase } from './use-cases/create-plan.use-case';
+import { FindAllPlanUseCase } from './use-cases/find-all-plan.use-case';
+import { FindOnePlanUseCase } from './use-cases/find-one-plan.use-case';
+import { UpdatePlanUseCase } from './use-cases/update-plan.use-case';
+import { PlanTypeOrmRepository } from './plan-typeorm.repository';
+import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Plan])],
   controllers: [PlanController],
   providers: [
-    PlanService,
+    CreatePlanUseCase,
+    FindAllPlanUseCase,
+    FindOnePlanUseCase,
+    UpdatePlanUseCase,
+    DeletePlanUseCase,
+    PlanTypeOrmRepository,
+    {
+      provide: 'IPlanRepository',
+      useExisting: PlanTypeOrmRepository,
+    },
     profileFor<Plan, CreatePlanDto, ReturnPlanDto>(
       Plan,
       CreatePlanDto,
