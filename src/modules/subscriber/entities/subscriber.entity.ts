@@ -20,11 +20,9 @@ export class Subscriber {
   @AutoMap()
   userId: string;
 
-  @Column()
-  @AutoMap()
-  planId: string;
-
+  @Column({ name: 'planId' })
   @ManyToOne(() => Plan)
+  @AutoMap()
   @JoinColumn()
   plan: Plan;
 }
