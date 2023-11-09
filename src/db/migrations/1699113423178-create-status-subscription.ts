@@ -1,8 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreatePlan1698869055439 implements MigrationInterface {
+export class CreateStatusSubscription1699113423178
+  implements MigrationInterface
+{
   private table = new Table({
-    name: 'Plan',
+    name: 'StatusSubscription',
     columns: [
       {
         name: 'id',
@@ -15,26 +17,17 @@ export class CreatePlan1698869055439 implements MigrationInterface {
       {
         name: 'name',
         type: 'varchar',
-        length: '255',
+        length: '10',
+        isNullable: true,
       },
       {
-        name: 'description',
-        type: 'text',
-      },
-      {
-        name: 'priceInCents',
-        type: 'int',
-      },
-      {
-        name: 'periodInMonths',
-        type: 'int',
-      },
-      {
-        name: 'advantage',
-        type: 'text',
+        name: 'enum',
+        type: 'varchar',
+        length: '10',
       },
     ],
   });
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(this.table);
   }

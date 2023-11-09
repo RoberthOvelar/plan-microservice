@@ -15,10 +15,10 @@ class _UpdateplanDto {
   description: string;
 
   @ApiProperty()
-  price_in_cents: number;
+  priceInCents: number;
 
   @ApiProperty()
-  period: string;
+  periodInMonths: number;
 
   @ApiProperty()
   advantage: string;

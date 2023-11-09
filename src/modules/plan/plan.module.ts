@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PlanController } from './plan.controller';
 import { Plan } from './entities/plan.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { profileFor } from '../../profile/mapper.profile';
+import { profileFor } from '../../profiles/mapper.profile';
 import { CreatePlanDto } from './dtos/create-plan.dto';
 import { ReturnPlanDto } from './dtos/return-plan.dto';
 import { CreatePlanUseCase } from './use-cases/create-plan.use-case';
@@ -32,5 +32,6 @@ import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
       ReturnPlanDto,
     ),
   ],
+  exports: ['IPlanRepository'],
 })
 export class PlanModule {}

@@ -23,12 +23,12 @@ export class Plan {
   @Column()
   @AutoMap()
   @ApiProperty()
-  price_in_cents: number;
+  priceInCents: number;
 
   @Column()
   @AutoMap()
   @ApiProperty()
-  period: string;
+  periodInMonths: number;
 
   @Column()
   @AutoMap()

@@ -16,12 +16,12 @@ export class CreatePlanDto {
   @ApiProperty()
   @IsInt()
   @AutoMap()
-  price_in_cents: number;
+  priceInCents: number;
 
   @ApiProperty()
   @IsString()
   @AutoMap()
-  period: string;
+  periodInMonths: number;
 
   @ApiProperty()
   @IsString()

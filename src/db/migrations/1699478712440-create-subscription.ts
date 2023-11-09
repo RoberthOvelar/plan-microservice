@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateSubscriber1699113423178 implements MigrationInterface {
+export class CreateSubscription1699478712440 implements MigrationInterface {
   private table = new Table({
-    name: 'Subscriber',
+    name: 'Subscription',
     columns: [
       {
         name: 'id',
@@ -21,12 +21,30 @@ export class CreateSubscriber1699113423178 implements MigrationInterface {
         name: 'planId',
         type: 'uuid',
       },
+      {
+        name: 'statusId',
+        type: 'uuid',
+      },
+      {
+        name: 'subscribedAt',
+        type: 'timestamp',
+        default: 'now()',
+      },
+      {
+        name: 'expiresAt',
+        type: 'timestamp',
+      },
     ],
     foreignKeys: [
       {
         referencedTableName: 'Plan',
         referencedColumnNames: ['id'],
         columnNames: ['planId'],
+      },
+      {
+        referencedTableName: 'StatusSubscription',
+        referencedColumnNames: ['id'],
+        columnNames: ['statusId'],
       },
     ],
   });
