@@ -17,14 +17,10 @@ export class FindOnePlanUseCase {
   ) {}
 
   async execute(id: string): Promise<any> {
-    if (isUUID(id, 4)) {
-      const result =
-        (await this.planRepositoty.findById(id)) ??
-        throwEx(new NotFoundException());
+    const result =
+      (await this.planRepositoty.findById(id)) ??
+      throwEx(new NotFoundException());
 
-      return this.mapper.map(result, Plan, ReturnPlanDto);
-    }
-
-    throwEx(new NotFoundException());
+    return this.mapper.map(result, Plan, ReturnPlanDto);
   }
 }

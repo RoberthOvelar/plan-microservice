@@ -1,16 +1,17 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { SubscriptionService } from './subscription.service';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
+import { SubscriptionService } from './subscription.service';
 import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
 
 @Controller('subscription')
@@ -22,33 +23,33 @@ export class SubscriptionController {
   ) {}
 
   @Post()
+  @ApiOkResponse({ type: CreateSubscriptionDto })
   create(@Body() createSubscriptionDto: CreateSubscriptionDto) {
-    return this.subscriptionService.create(createSubscriptionDto);
+    return this.subscribeInPlanUseCase.execute(createSubscriptionDto.planId);
   }
 
   @Get()
   findAll() {
     return this.subscribeInPlanUseCase.execute(
       'e8136b8b-9105-41a2-bfdb-60560540178c',
-      'e5af4d01-9685-4bee-8c90-3fecd1985e10',
     );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.subscriptionService.findOne(+id);
+  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.subscriptionService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateSubscriptionDto: UpdateSubscriptionDto,
   ) {
-    return this.subscriptionService.update(+id, updateSubscriptionDto);
+    return this.subscriptionService.update(id, updateSubscriptionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subscriptionService.remove(+id);
+  remove(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.subscriptionService.remove(id);
   }
 }

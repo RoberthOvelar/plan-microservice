@@ -1,16 +1,8 @@
-import { AutoMap } from '@automapper/classes';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsUUID } from 'class-validator';
 
 export class CreateSubscriptionDto {
   @ApiProperty()
-  @AutoMap()
-  subscribedAt: Date;
-
-  expiresAt: Date;
-
-  userId: string;
-
-  plan: number;
-
-  status: number;
+  @IsUUID()
+  planId: string;
 }

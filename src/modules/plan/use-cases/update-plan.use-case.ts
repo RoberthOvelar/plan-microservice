@@ -18,15 +18,11 @@ export class UpdatePlanUseCase {
   ) {}
 
   async execute(id: string, input: UpdatePlanDto): Promise<ReturnPlanDto> {
-    if (isUUID(id, 4)) {
-      const result =
-        (await this.planRepositoty.findById(id)) ??
-        throwEx(new NotFoundException());
+    const result =
+      (await this.planRepositoty.findById(id)) ??
+      throwEx(new NotFoundException());
 
-      const updatedEntity = await this.planRepositoty.update(result, input);
-      return this.mapper.map(updatedEntity, Plan, ReturnPlanDto);
-    }
-
-    throwEx(new NotFoundException());
+    const updatedEntity = await this.planRepositoty.update(result, input);
+    return this.mapper.map(updatedEntity, Plan, ReturnPlanDto);
   }
 }

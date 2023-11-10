@@ -20,7 +20,9 @@ export class SubscribeInPlanUseCase {
     @InjectIRepository(Plan)
     private readonly planRepositoty: IRepository<Plan>,
   ) {}
-  async execute(userId: string, planId: string): Promise<Subscription> {
+  async execute(planId: string): Promise<Subscription> {
+    const userId = 'e8136b8b-9105-41a2-bfdb-60560540178c';
+
     const status = await this.statusRepositoty.findOneBy({
       name: 'Ativo',
     });

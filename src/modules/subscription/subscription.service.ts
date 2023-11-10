@@ -12,15 +12,15 @@ export class SubscriptionService {
     return `This action returns all subscription`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} subscription`;
   }
 
-  update(id: number, updateSubscriptionDto: UpdateSubscriptionDto) {
+  update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
     return `This action updates a #${id} subscription`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} subscription`;
   }
 }
