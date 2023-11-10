@@ -1,23 +1,23 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Subscription } from '../entities/subscription.entity';
-import { throwEx } from 'src/helpers/exception.helper';
+import { InjectIRepository } from 'src/common/decorators/inject-repository.decorator';
 import { IRepository } from 'src/common/repository/irepository.repository';
+import { throwEx } from 'src/helpers/exception.helper';
 import { Plan } from 'src/modules/plan/entities/plan.entity';
 import { StatusSubscription } from '../entities/status-subscription.entity';
+import { Subscription } from '../entities/subscription.entity';
 
 @Injectable()
 export class SubscribeInPlanUseCase {
   constructor(
-    @Inject('IRepository<Subscription>')
+    @InjectIRepository(Subscription)
     private readonly subRepositoty: IRepository<Subscription>,
-    @Inject('IRepository<StatusSubscription>')
+    @InjectIRepository(StatusSubscription)
     private readonly statusRepositoty: IRepository<StatusSubscription>,
-    @Inject('IRepository<Plan>')
+    @InjectIRepository(Plan)
     private readonly planRepositoty: IRepository<Plan>,
   ) {}
   async execute(userId: string, planId: string): Promise<Subscription> {

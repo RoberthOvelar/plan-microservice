@@ -1,7 +1,8 @@
 import { Mapper } from '@automapper/core';
 import { InjectMapper } from '@automapper/nestjs';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
+import { InjectIRepository } from 'src/common/decorators/inject-repository.decorator';
 import { IRepository } from 'src/common/repository/irepository.repository';
 import { throwEx } from 'src/helpers/exception.helper';
 import { ReturnPlanDto } from '../dtos/return-plan.dto';
@@ -10,7 +11,7 @@ import { Plan } from '../entities/plan.entity';
 @Injectable()
 export class FindOnePlanUseCase {
   constructor(
-    @Inject('IRepository<Plan>')
+    @InjectIRepository(Plan)
     private readonly planRepositoty: IRepository<Plan>,
     @InjectMapper() private readonly mapper: Mapper,
   ) {}

@@ -8,7 +8,7 @@ export function TypeOrmRepositoryFor<Entity>(
   entity: Type<Entity>,
 ): Type<IRepository<Entity>> {
   @Injectable()
-  class TypeOrmRepository<Entity> implements IRepository<Entity> {
+  class TypeOrmRepository implements IRepository<Entity> {
     constructor(
       @InjectRepository(entity)
       private readonly typeOrmRepo: Repository<Entity>,

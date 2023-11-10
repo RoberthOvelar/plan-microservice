@@ -2,7 +2,7 @@ import { Mapper, createMap } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Injectable, Type } from '@nestjs/common';
 
-export function profileFor<Entity, CreateDto, ReturnDto>(
+export function ProfileFor<Entity, CreateDto, ReturnDto>(
   entity: Type<Entity>,
   createDto: Type<CreateDto>,
   returnDto: Type<ReturnDto>,

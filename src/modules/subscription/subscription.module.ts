@@ -19,11 +19,11 @@ import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
     SubscribeInPlanUseCase,
     {
       provide: `IRepository<Subscription>`,
-      useClass: TypeOrmRepositoryFor<Subscription>(Subscription),
+      useClass: TypeOrmRepositoryFor(Subscription),
     },
     {
       provide: 'IRepository<StatusSubscription>',
-      useClass: TypeOrmRepositoryFor<StatusSubscription>(StatusSubscription),
+      useClass: TypeOrmRepositoryFor(StatusSubscription),
     },
   ],
 })
