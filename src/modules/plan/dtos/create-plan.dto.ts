@@ -19,7 +19,7 @@ export class CreatePlanDto {
   priceInCents: number;
 
   @ApiProperty()
-  @IsString()
+  @IsInt()
   @AutoMap()
   periodInMonths: number;
 

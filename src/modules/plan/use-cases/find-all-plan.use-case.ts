@@ -3,13 +3,13 @@ import { InjectMapper } from '@automapper/nestjs';
 import { Inject, Injectable } from '@nestjs/common';
 import { ReturnPlanDto } from '../dtos/return-plan.dto';
 import { Plan } from '../entities/plan.entity';
-import { IPlanRepository } from '../plan.repository';
+import { IRepository } from 'src/common/repository/irepository.repository';
 
 @Injectable()
 export class FindAllPlanUseCase {
   constructor(
-    @Inject('IPlanRepository')
-    private readonly planRepositoty: IPlanRepository,
+    @Inject('IRepository<Plan>')
+    private readonly planRepositoty: IRepository<Plan>,
     @InjectMapper() private readonly mapper: Mapper,
   ) {}
 

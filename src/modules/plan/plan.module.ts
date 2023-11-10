@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { PlanController } from './plan.controller';
-import { Plan } from './entities/plan.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { profileFor } from '../../profiles/mapper.profile';
+import { TypeOrmRepositoryFor } from 'src/common/repository/typeorm.repository';
+import { profileFor } from '../../common/profile/mapper.profile';
 import { CreatePlanDto } from './dtos/create-plan.dto';
 import { ReturnPlanDto } from './dtos/return-plan.dto';
+import { Plan } from './entities/plan.entity';
+import { PlanController } from './plan.controller';
 import { CreatePlanUseCase } from './use-cases/create-plan.use-case';
+import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
 import { FindAllPlanUseCase } from './use-cases/find-all-plan.use-case';
 import { FindOnePlanUseCase } from './use-cases/find-one-plan.use-case';
 import { UpdatePlanUseCase } from './use-cases/update-plan.use-case';
-import { PlanTypeOrmRepository } from './plan-typeorm.repository';
-import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Plan])],
@@ -21,10 +21,9 @@ import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
     FindOnePlanUseCase,
     UpdatePlanUseCase,
     DeletePlanUseCase,
-    PlanTypeOrmRepository,
     {
-      provide: 'IPlanRepository',
-      useExisting: PlanTypeOrmRepository,
+      provide: 'IRepository<Plan>',
+      useClass: TypeOrmRepositoryFor<Plan>(Plan),
     },
     profileFor<Plan, CreatePlanDto, ReturnPlanDto>(
       Plan,
@@ -32,6 +31,6 @@ import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
       ReturnPlanDto,
     ),
   ],
-  exports: ['IPlanRepository'],
+  exports: ['IRepository<Plan>'],
 })
 export class PlanModule {}

@@ -1,13 +1,14 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { isUUID } from 'class-validator';
 import { throwEx } from 'src/helpers/exception.helper';
-import { IPlanRepository } from '../plan.repository';
+import { IRepository } from 'src/common/repository/irepository.repository';
+import { Plan } from '../entities/plan.entity';
 
 @Injectable()
 export class DeletePlanUseCase {
   constructor(
-    @Inject('IPlanRepository')
-    private readonly planRepositoty: IPlanRepository,
+    @Inject('IRepository<Plan>')
+    private readonly planRepositoty: IRepository<Plan>,
   ) {}
 
   async execute(id: string): Promise<void> {
