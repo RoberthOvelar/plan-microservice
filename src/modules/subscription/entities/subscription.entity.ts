@@ -35,10 +35,10 @@ export class Subscription {
   expiresAt: Date;
 
   constructor(props: {
-    userId: string;
-    plan: Plan;
-    status: StatusSubscription;
-    expiresAt: Date;
+    userId?: string;
+    plan?: Plan;
+    status?: StatusSubscription;
+    expiresAt?: Date;
   }) {
     Object.assign(this, props);
   }

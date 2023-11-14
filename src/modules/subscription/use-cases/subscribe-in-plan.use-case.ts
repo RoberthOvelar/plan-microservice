@@ -29,7 +29,7 @@ export class SubscribeInPlanUseCase {
 
     const existingSubscription = await this.subRepositoty.findOneBy({
       userId: userId,
-      status: status.id,
+      status: status,
     });
 
     if (existingSubscription)

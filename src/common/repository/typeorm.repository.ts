@@ -26,12 +26,12 @@ export function TypeOrmRepositoryFor<Entity>(
       return await this.typeOrmRepo.findOneBy(<any>{ id });
     }
 
-    async findOneBy(model: Partial<Entity>) {
-      return await this.typeOrmRepo.findOneBy(<FindOptionsWhere<Entity>>model);
+    async findOneBy(where: FindOptionsWhere<Entity>): Promise<Entity> {
+      return await this.typeOrmRepo.findOneBy(<FindOptionsWhere<Entity>>where);
     }
 
-    async findBy(model: Partial<Entity>) {
-      return await this.typeOrmRepo.findBy(<FindOptionsWhere<Entity>>model);
+    async findBy(where: FindOptionsWhere<Entity>): Promise<Entity[]> {
+      return await this.typeOrmRepo.findBy(<FindOptionsWhere<Entity>>where);
     }
 
     async update(

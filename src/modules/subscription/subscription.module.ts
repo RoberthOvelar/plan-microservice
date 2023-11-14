@@ -7,6 +7,7 @@ import { Subscription } from './entities/subscription.entity';
 import { SubscriptionController } from './subscription.controller';
 import { SubscriptionService } from './subscription.service';
 import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
+import { CheckExpiredSubscriptionuseCase } from './use-cases/check-expired-subscription.use-case';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
   providers: [
     SubscriptionService,
     SubscribeInPlanUseCase,
+    CheckExpiredSubscriptionuseCase,
     {
       provide: `IRepository<Subscription>`,
       useClass: TypeOrmRepositoryFor(Subscription),
