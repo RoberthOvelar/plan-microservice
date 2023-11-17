@@ -1,13 +1,17 @@
+import { classes } from '@automapper/classes';
+import { AutomapperModule } from '@automapper/nestjs';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthGuard, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { KeycloakConfigModule } from './config/keycloak-config/keycloak-config.module';
 import { PlanModule } from './modules/plan/plan.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
-import { AutomapperModule } from '@automapper/nestjs';
-import { classes } from '@automapper/classes';
-import { ScheduleModule } from '@nestjs/schedule';
+import { AuthCoreModule } from './common/auth/AuthCoreModule.module';
 
 @Module({
   imports: [
@@ -16,6 +20,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     ConfigModule.forRoot({
       envFilePath: ['.env.development.local', '.env.development'],
+      isGlobal: true,
     }),
     ScheduleModule.forRoot(),
     TypeOrmModule.forRoot({
@@ -35,6 +40,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     PlanModule,
     SubscriptionModule,
+    KeycloakConfigModule,
+    AuthCoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

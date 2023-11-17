@@ -10,6 +10,10 @@ async function bootstrap() {
     .setDescription('Sistema de vendas online')
     .setVersion('1.0')
     .addTag('vendas')
+    .addSecurity('bearer', {
+      type: 'http',
+      scheme: 'bearer',
+    })
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

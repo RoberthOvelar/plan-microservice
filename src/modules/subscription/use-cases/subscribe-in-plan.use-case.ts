@@ -9,6 +9,7 @@ import { throwEx } from 'src/helpers/exception.helper';
 import { Plan } from 'src/modules/plan/entities/plan.entity';
 import { StatusSubscription } from '../entities/status-subscription.entity';
 import { Subscription } from '../entities/subscription.entity';
+import { Equal } from 'typeorm';
 
 @Injectable()
 export class SubscribeInPlanUseCase {
@@ -20,16 +21,14 @@ export class SubscribeInPlanUseCase {
     @InjectIRepository(Plan)
     private readonly planRepositoty: IRepository<Plan>,
   ) {}
-  async execute(planId: string): Promise<Subscription> {
-    const userId = 'e8136b8b-9105-41a2-bfdb-60560540178c';
-
-    const status = await this.statusRepositoty.findOneBy({
+  async execute(userId: string, planId: string): Promise<Subscription> {
+    const statusAtivo = await this.statusRepositoty.findOneBy({
       name: 'Ativo',
     });
 
     const existingSubscription = await this.subRepositoty.findOneBy({
       userId: userId,
-      status: status,
+      status: Equal(statusAtivo.id),
     });
 
     if (existingSubscription)
@@ -44,7 +43,7 @@ export class SubscribeInPlanUseCase {
     const sub = new Subscription({
       userId,
       plan,
-      status,
+      status: statusAtivo,
       expiresAt,
     });
 

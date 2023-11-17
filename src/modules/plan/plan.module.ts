@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthCoreModule } from 'src/common/auth/AuthCoreModule.module';
+import { ProfileFor } from 'src/common/profile/mapper.profile';
 import { TypeOrmRepositoryFor } from 'src/common/repository/typeorm.repository';
 import { CreatePlanDto } from './dtos/create-plan.dto';
 import { ReturnPlanDto } from './dtos/return-plan.dto';
@@ -10,10 +12,9 @@ import { DeletePlanUseCase } from './use-cases/delete-plan.use-case';
 import { FindAllPlanUseCase } from './use-cases/find-all-plan.use-case';
 import { FindOnePlanUseCase } from './use-cases/find-one-plan.use-case';
 import { UpdatePlanUseCase } from './use-cases/update-plan.use-case';
-import { ProfileFor } from 'src/common/profile/mapper.profile';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Plan])],
+  imports: [TypeOrmModule.forFeature([Plan]), AuthCoreModule],
   controllers: [PlanController],
   providers: [
     CreatePlanUseCase,

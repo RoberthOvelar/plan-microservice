@@ -9,6 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Public, Roles } from 'nest-keycloak-connect';
 import { CreatePlanDto } from './dtos/create-plan.dto';
 import { ReturnPlanDto } from './dtos/return-plan.dto';
 import { UpdatePlanDto } from './dtos/update-plan.dto';
@@ -31,24 +32,28 @@ export class PlanController {
 
   @Post()
   @ApiOkResponse({ type: ReturnPlanDto })
+  @Roles({ roles: ['realm:ADMIN'] })
   create(@Body() createPlanDto: CreatePlanDto) {
     return this.createPlanUseCase.execute(createPlanDto);
   }
 
   @Get()
   @ApiOkResponse({ type: ReturnPlanDto, isArray: true })
+  @Public()
   findAll() {
     return this.findAllPlanUseCase.execute();
   }
 
   @Get(':id')
   @ApiOkResponse({ type: ReturnPlanDto })
+  @Public()
   findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.findOnePlanUseCase.execute(id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: ReturnPlanDto })
+  @Roles({ roles: ['realm:ADMIN'] })
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updatePlanDto: UpdatePlanDto,
@@ -57,6 +62,7 @@ export class PlanController {
   }
 
   @Delete(':id')
+  @Roles({ roles: ['realm:ADMIN'] })
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.deletePlanUseCase.execute(id);
   }

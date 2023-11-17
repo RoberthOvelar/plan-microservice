@@ -1,55 +1,31 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthenticatedUser } from 'nest-keycloak-connect';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
-import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
-import { SubscriptionService } from './subscription.service';
 import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
 
-@Controller('subscription')
 @ApiTags('Subscription')
+@Controller('subscription')
+@ApiBearerAuth()
 export class SubscriptionController {
   constructor(
-    private readonly subscriptionService: SubscriptionService,
     private readonly subscribeInPlanUseCase: SubscribeInPlanUseCase,
   ) {}
 
   @Post()
   @ApiOkResponse({ type: CreateSubscriptionDto })
-  create(@Body() createSubscriptionDto: CreateSubscriptionDto) {
-    return this.subscribeInPlanUseCase.execute(createSubscriptionDto.planId);
-  }
-
-  @Get()
-  findAll() {
+  create(
+    @Body() createSubscriptionDto: CreateSubscriptionDto,
+    @AuthenticatedUser() user: any,
+  ) {
     return this.subscribeInPlanUseCase.execute(
-      'e8136b8b-9105-41a2-bfdb-60560540178c',
+      user.sub,
+      createSubscriptionDto.planId,
     );
   }
 
-  @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.subscriptionService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() updateSubscriptionDto: UpdateSubscriptionDto,
-  ) {
-    return this.subscriptionService.update(id, updateSubscriptionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.subscriptionService.remove(id);
+  @Get('/cancel')
+  findOne(@AuthenticatedUser() user: any) {
+    return user;
   }
 }

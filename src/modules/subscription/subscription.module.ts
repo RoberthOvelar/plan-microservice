@@ -8,11 +8,13 @@ import { SubscriptionController } from './subscription.controller';
 import { SubscriptionService } from './subscription.service';
 import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
 import { CheckExpiredSubscriptionuseCase } from './use-cases/check-expired-subscription.use-case';
+import { AuthCoreModule } from 'src/common/auth/AuthCoreModule.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Subscription, StatusSubscription]),
     PlanModule,
+    AuthCoreModule,
   ],
   controllers: [SubscriptionController],
   providers: [
