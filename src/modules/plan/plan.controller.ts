@@ -8,8 +8,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { Public, Roles } from 'nest-keycloak-connect';
+import {
+  ApiBearerAuth,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Public } from 'nest-keycloak-connect';
 import { CreatePlanDto } from './dtos/create-plan.dto';
 import { ReturnPlanDto } from './dtos/return-plan.dto';
 import { UpdatePlanDto } from './dtos/update-plan.dto';
@@ -32,13 +38,16 @@ export class PlanController {
 
   @Post()
   @ApiOkResponse({ type: ReturnPlanDto })
-  @Roles({ roles: ['realm:ADMIN'] })
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Cria um novo plano de assinatura' })
+  //@Roles({ roles: ['realm:ADMIN'] })
   create(@Body() createPlanDto: CreatePlanDto) {
     return this.createPlanUseCase.execute(createPlanDto);
   }
 
   @Get()
   @ApiOkResponse({ type: ReturnPlanDto, isArray: true })
+  @ApiOperation({ summary: 'Retorn todos os planos de assinatura' })
   @Public()
   findAll() {
     return this.findAllPlanUseCase.execute();
@@ -46,6 +55,8 @@ export class PlanController {
 
   @Get(':id')
   @ApiOkResponse({ type: ReturnPlanDto })
+  @ApiNotFoundResponse()
+  @ApiOperation({ summary: 'Retorn um plano de assinatura pelo {id}' })
   @Public()
   findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.findOnePlanUseCase.execute(id);
@@ -53,7 +64,10 @@ export class PlanController {
 
   @Patch(':id')
   @ApiOkResponse({ type: ReturnPlanDto })
-  @Roles({ roles: ['realm:ADMIN'] })
+  @ApiNotFoundResponse()
+  @ApiOperation({ summary: 'Atualiza um plano de assinatura pelo {id}' })
+  @ApiBearerAuth()
+  //@Roles({ roles: ['realm:ADMIN'] })
   update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updatePlanDto: UpdatePlanDto,
@@ -62,7 +76,12 @@ export class PlanController {
   }
 
   @Delete(':id')
-  @Roles({ roles: ['realm:ADMIN'] })
+  @ApiOperation({
+    summary: 'Deleta (softDelete) um plano de assinatura pelo {id}',
+  })
+  @ApiNotFoundResponse()
+  @ApiBearerAuth()
+  //@Roles({ roles: ['realm:ADMIN'] })
   remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.deletePlanUseCase.execute(id);
   }

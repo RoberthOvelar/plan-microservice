@@ -7,7 +7,7 @@ import { StatusSubscription } from '../entities/status-subscription.entity';
 import { Subscription } from '../entities/subscription.entity';
 
 @Injectable()
-export class CheckExpiredSubscriptionuseCase {
+export class CheckExpiredSubscriptionUseCase {
   constructor(
     @InjectIRepository(Subscription)
     private readonly subRepositoty: IRepository<Subscription>,

@@ -15,7 +15,6 @@ export class CreateSubscription1699478712440 implements MigrationInterface {
       {
         name: 'userId',
         type: 'uuid',
-        isUnique: true,
       },
       {
         name: 'planId',

@@ -5,10 +5,10 @@ import { PlanModule } from '../plan/plan.module';
 import { StatusSubscription } from './entities/status-subscription.entity';
 import { Subscription } from './entities/subscription.entity';
 import { SubscriptionController } from './subscription.controller';
-import { SubscriptionService } from './subscription.service';
 import { SubscribeInPlanUseCase } from './use-cases/subscribe-in-plan.use-case';
-import { CheckExpiredSubscriptionuseCase } from './use-cases/check-expired-subscription.use-case';
+import { CheckExpiredSubscriptionUseCase } from './use-cases/check-expired-subscription.use-case';
 import { AuthCoreModule } from 'src/common/auth/AuthCoreModule.module';
+import { CancelSubscriptionUseCase } from './use-cases/cancel-subscription.use-case';
 
 @Module({
   imports: [
@@ -18,9 +18,9 @@ import { AuthCoreModule } from 'src/common/auth/AuthCoreModule.module';
   ],
   controllers: [SubscriptionController],
   providers: [
-    SubscriptionService,
     SubscribeInPlanUseCase,
-    CheckExpiredSubscriptionuseCase,
+    CheckExpiredSubscriptionUseCase,
+    CancelSubscriptionUseCase,
     {
       provide: `IRepository<Subscription>`,
       useClass: TypeOrmRepositoryFor(Subscription),

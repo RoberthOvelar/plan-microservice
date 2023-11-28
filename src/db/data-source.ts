@@ -1,10 +1,6 @@
-import { ConfigModule } from '@nestjs/config';
+import 'dotenv/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
-
-ConfigModule.forRoot({
-  envFilePath: ['.env.development.local', '.env.development'],
-});
 
 export const dataSouceOptions: DataSourceOptions & SeederOptions = {
   type: <'mysql' | 'postgres'>process.env.DB_CONNECTION,

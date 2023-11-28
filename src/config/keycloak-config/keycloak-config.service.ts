@@ -10,12 +10,13 @@ import {
 export class KeycloakConfigService implements KeycloakConnectOptionsFactory {
   createKeycloakConnectOptions(): KeycloakConnectOptions {
     return {
-      authServerUrl: 'http://localhost:8080',
-      realm: 'tads',
-      clientId: 'backend',
-      secret: 'CJfeZnZrL2uLTJGRDvZHiGkTopxq5ZF1',
-      tokenValidation: TokenValidation.ONLINE,
+      authServerUrl: process.env.KC_URL,
+      realm: process.env.KC_REALM,
+      clientId: process.env.KC_CLIENT_ID,
+      secret: null,
+      tokenValidation: TokenValidation.OFFLINE,
       policyEnforcement: PolicyEnforcementMode.PERMISSIVE,
+      bearerOnly: true,
     };
   }
 }

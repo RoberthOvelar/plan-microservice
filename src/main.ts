@@ -6,10 +6,9 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Vendas online')
-    .setDescription('Sistema de vendas online')
+    .setTitle('CoffeControll')
+    .setDescription('Micro serviço: Planos/Assinaturas')
     .setVersion('1.0')
-    .addTag('vendas')
     .addSecurity('bearer', {
       type: 'http',
       scheme: 'bearer',
